@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Project One — Portfolio</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Noto Sans TC", sans-serif;
+      background: #f5f5f0;
+      color: #171717;
+      line-height: 1.6;
+    }
+
+
+    /* ===== Navbar ===== */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(245, 245, 240, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    nav a {
+      color: #171717;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover {
+      opacity: 0.5;
+    }
+
+
+    /* ===== Project Header ===== */
+
+    .project-header {
+      max-width: 1300px;
+      margin: auto;
+      padding: 170px 7% 90px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 50px;
+      color: #777;
+      text-decoration: none;
+      font-size: 13px;
+      transition: opacity 0.2s;
+    }
+
+    .back:hover {
+      opacity: 0.5;
+    }
+
+    .project-number {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.5;
+      margin-bottom: 20px;
+    }
+
+    .project-header h1 {
+      font-size: clamp(55px, 9vw, 130px);
+      line-height: 0.9;
+      letter-spacing: -6px;
+    }
+
+    .project-description {
+      max-width: 650px;
+      margin-top: 45px;
+      font-size: 18px;
+      color: #666;
+    }
+
+    .project-meta {
+      margin-top: 50px;
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+
+    /* ===== Gallery ===== */
+
+    .project-gallery {
+      max-width: 1500px;
+      margin: auto;
+      padding: 20px 6% 150px;
+
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .gallery-item {
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #ddd;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(0.97);
+    }
+
+
+    /* ===== Wide Image ===== */
+
+    .gallery-item.wide {
+      grid-column: span 2;
+    }
+
+    .gallery-item.wide img {
+      aspect-ratio: 16 / 8;
+    }
+
+
+    /* ===== Project Footer ===== */
+
+    .project-footer {
+      max-width: 1300px;
+      margin: auto;
+      padding: 80px 7% 120px;
+      border-top: 1px solid #ddd;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .next-project {
+      text-align: right;
+    }
+
+    .next-project span {
+      display: block;
+      color: #999;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .next-project a {
+      color: #171717;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+
+    /* ===== Footer ===== */
+
+    footer {
+      padding: 30px 6%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #888;
+      border-top: 1px solid #ddd;
+    }
+
+
+    /* ===== Lightbox ===== */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.94);
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      z-index: 999;
+      padding: 30px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 95%;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .close {
+      position: absolute;
+      top: 25px;
+      right: 35px;
+
+      color: white;
+      font-size: 35px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+
+    /* ===== Mobile ===== */
+
+    @media (max-width: 700px) {
+
+      nav {
+        padding: 18px 5%;
+      }
+
+      .project-header {
+        padding: 130px 7% 70px;
+      }
+
+      .project-header h1 {
+        letter-spacing: -3px;
+      }
+
+      .project-description {
+        font-size: 16px;
+      }
+
+      .project-meta {
+        gap: 30px;
+      }
+
+      .project-gallery {
+        padding: 10px 6% 90px;
+
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .gallery-item.wide {
+        grid-column: span 1;
+      }
+
+      .gallery-item.wide img {
+        aspect-ratio: 4 / 3;
+      }
+
+      .project-footer {
+        padding: 60px 7% 90px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 50px;
+      }
+
+      .next-project {
+        text-align: left;
+      }
+
+      footer {
+        padding: 25px 6%;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- ===== Navbar ===== -->
+
+  <nav>
+
+    <div class="logo">
+      yoroshikushizou
+    </div>
+
+    <a href="index.html">
+      BACK TO WORK
+    </a>
+
+  </nav>
+
+
+  <!-- ===== Project Header ===== -->
+
+  <header class="project-header">
+
+    <a
+      href="index.html"
+      class="back"
+    >
+      ← BACK TO PROJECTS
+    </a>
+
+    <div class="project-number">
+      PROJECT 01
+    </div>
+
+    <h1>
+      Project One
+    </h1>
+
+    <p class="project-description">
+      這裡可以放 Project One 的作品介紹。
+      你可以介紹這件作品的創作概念、製作過程、
+      使用媒材，以及作品想傳達的內容。
+    </p>
+
+
+    <div class="project-meta">
+
+      <div class="meta-item">
+
+        <span class="meta-label">
+          CATEGORY
+        </span>
+
+        <span class="meta-value">
+          Painting
+        </span>
+
+      </div>
+
+
+      <div class="meta-item">
+
+        <span class="meta-label">
+          YEAR
+        </span>
+
+        <span class="meta-value">
+          2026
+        </span>
+
+      </div>
+
+
+      <div class="meta-item">
+
+        <span class="meta-label">
+          MEDIUM
+        </span>
+
+        <span class="meta-value">
+          Acrylic / Canvas
+        </span>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ===== Project Gallery ===== -->
+
+  <main class="project-gallery">
+
+
+    <!-- Image 01 -->
+
+    <div
+      class="gallery-item"
+      onclick="openLightbox('images/project-01-01.jpg')"
+    >
+
+      <img
+        src="images/project-01-01.jpg"
+        alt="Project One Image 01"
+      >
+
+    </div>
+
+
+    <!-- Image 02 -->
+
+    <div
+      class="gallery-item"
+      onclick="openLightbox('images/project-01-02.jpg')"
+    >
+
+      <img
+        src="images/project-01-02.jpg"
+        alt="Project One Image 02"
+      >
+
+    </div>
+
+
+    <!-- Image 03 -->
+
+    <div
+      class="gallery-item"
+      onclick="openLightbox('images/project-01-03.jpg')"
+    >
+
+      <img
+        src="images/project-01-03.jpg"
+        alt="Project One Image 03"
+      >
+
+    </div>
+
+
+    <!-- Image 04 -->
+
+    <div
+      class="gallery-item"
+      onclick="openLightbox('images/project-01-04.jpg')"
+    >
+
+      <img
+        src="images/project-01-04.jpg"
+        alt="Project One Image 04"
+      >
+
+    </div>
+
+
+    <!-- Image 05 -->
+
+    <div
+      class="gallery-item"
+      onclick="openLightbox('images/project-01-05.jpg')"
+    >
+
+      <img
+        src="images/project-01-05.jpg"
+        alt="Project One Image 05"
+      >
+
+    </div>
+
+
+    <!-- Image 06 -->
+
+    <div
+      class="gallery-item"
+      onclick="openLightbox('images/project-01-06.jpg')"
+    >
+
+      <img
+        src="images/project-01-06.jpg"
+        alt="Project One Image 06"
+      >
+
+    </div>
+
+
+    <!--
+      如果需要更多圖片，
+      直接複製下面這一段即可。
+
+      <div
+        class="gallery-item"
+        onclick="openLightbox('images/project-01-07.jpg')"
+      >
+        <img
+          src="images/project-01-07.jpg"
+          alt="Project One Image 07"
+        >
+      </div>
+    -->
+
+
+  </main>
+
+
+  <!-- ===== Project Footer ===== -->
+
+  <section class="project-footer">
+
+    <a
+      href="index.html"
+      class="back"
+    >
+      ← BACK TO ALL PROJECTS
+    </a>
+
+
+    <div class="next-project">
+
+      <span>
+        NEXT PROJECT
+      </span>
+
+      <a href="#">
+        Project Two →
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== Footer ===== -->
+
+  <footer>
+
+    <span>
+      © 2026 yoroshikushizou
+    </span>
+
+    <span>
+      PORTFOLIO
+    </span>
+
+  </footer>
+
+
+  <!-- ===== Lightbox ===== -->
+
+  <div
+    class="lightbox"
+    id="lightbox"
+  >
+
+    <div
+      class="close"
+      onclick="closeLightbox()"
+    >
+      ×
+    </div>
+
+    <img
+      id="lightbox-image"
+      src=""
+      alt="Preview"
+    >
+
+  </div>
+
+
+  <!-- ===== JavaScript ===== -->
+
+  <script>
+
+    function openLightbox(src) {
+
+      document.getElementById("lightbox-image").src = src;
+
+      document
+        .getElementById("lightbox")
+        .classList.add("active");
+
+      document.body.style.overflow = "hidden";
+    }
+
+
+    function closeLightbox() {
+
+      document
+        .getElementById("lightbox")
+        .classList.remove("active");
+
+      document.body.style.overflow = "";
+    }
+
+
+    /* 點黑色背景關閉 */
+
+    document
+      .getElementById("lightbox")
+      .addEventListener("click", function(e) {
+
+        if (e.target === this) {
+          closeLightbox();
+        }
+
+      });
+
+
+    /* ESC 關閉 */
+
+    document.addEventListener("keydown", function(e) {
+
+      if (e.key === "Escape") {
+        closeLightbox();
+      }
+
+    });
+
+  </script>
+
+
+</body>
+</html>
